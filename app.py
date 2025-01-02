@@ -148,6 +148,45 @@ elif st.session_state.page == "sidebar":
         if option == "Wine":
             st.write("### Pilih Algoritma")
             algorithm = "K-Means"
+            if option == "Wine":  # Kondisi untuk Wine
+
+            try:
+                # Load model .pkl
+                with open("Unsupervised/kmean_wine.pkl", "rb") as file:
+                    kmeans_model = pickle.load(file)
+
+                # Simulasikan dataset
+                wine_data = pd.DataFrame({
+                    "alcohol": np.random.uniform(10, 15, 200),
+                    "total_phenols": np.random.uniform(0.1, 5, 200),
+                })
+                wine_features = wine_data.values
+
+                # Input untuk jumlah maksimal K
+                max_k = st.slider("Pilih Maksimal K", min_value=2, max_value=20, value=10)
+
+                # Tombol untuk menampilkan Elbow Method
+                if st.button("Tampilkan Grafik Elbow Method"):
+                    # Hitung SSE untuk setiap nilai K
+                    sse = []
+                    for k in range(1, max_k + 1):
+                        kmeans = KMeans(n_clusters=k, random_state=42)
+                        kmeans.fit(wine_features)
+                        sse.append(kmeans.inertia_)
+
+                    # Plot grafik Elbow Method
+                    plt.figure(figsize=(10, 6))
+                    plt.plot(range(1, max_k + 1), sse, marker='o')
+                    plt.xlabel("Jumlah Kluster (K)")
+                    plt.ylabel("Sum of Squared Errors (SSE)")
+                    plt.title("Elbow Method untuk Menentukan Nilai Optimal K")
+                    plt.grid(True)
+
+                    # Tampilkan grafik di Streamlit
+                    st.pyplot(plt)
+
+            except FileNotFoundError:
+                st.error("Model kmean_wine.pkl tidak ditemukan! Pastikan file ada di direktori yang sama.")
         else:
             st.write("### Pilih Algoritma")
             algorithm = st.selectbox("Algoritma:", ("SVM", "Random Forest"))
@@ -286,46 +325,6 @@ elif st.session_state.page == "sidebar":
                     st.success(f"### Jenisa Labu: {pumpkin_result}")
 
 
-if option == "Wine":  # Kondisi untuk Wine
-    st.write("### Klasifikasi Data Wine")
 
-    try:
-        # Load model .pkl
-        with open("Unsupervised/kmean_wine.pkl", "rb") as file:
-            kmeans_model = pickle.load(file)
 
-        # Simulasikan dataset
-        wine_data = pd.DataFrame({
-            "alcohol": np.random.uniform(10, 15, 200),
-            "total_phenols": np.random.uniform(0.1, 5, 200),
-        })
-        wine_features = wine_data.values
-
-        # Input untuk jumlah maksimal K
-        max_k = st.slider("Pilih Maksimal K", min_value=2, max_value=20, value=10)
-
-        # Tombol untuk menampilkan Elbow Method
-        if st.button("Tampilkan Grafik Elbow Method"):
-            # Hitung SSE untuk setiap nilai K
-            sse = []
-            for k in range(1, max_k + 1):
-                kmeans = KMeans(n_clusters=k, random_state=42)
-                kmeans.fit(wine_features)
-                sse.append(kmeans.inertia_)
-
-            # Plot grafik Elbow Method
-            plt.figure(figsize=(10, 6))
-            plt.plot(range(1, max_k + 1), sse, marker='o')
-            plt.xlabel("Jumlah Kluster (K)")
-            plt.ylabel("Sum of Squared Errors (SSE)")
-            plt.title("Elbow Method untuk Menentukan Nilai Optimal K")
-            plt.grid(True)
-
-            # Tampilkan grafik di Streamlit
-            st.pyplot(plt)
-
-    except FileNotFoundError:
-        st.error("Model kmean_wine.pkl tidak ditemukan! Pastikan file ada di direktori yang sama.")
-else:
-    st.write("Pilih jenis prediksi lain.")
 
