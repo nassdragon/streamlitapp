@@ -14,6 +14,11 @@ if "page" not in st.session_state:
 def go_to_sidebar():
     st.session_state.page = "sidebar"
 
+prediction_type = st.selectbox(
+    "Pilih jenis prediksi:",
+    ["Wine", "Prediksi Lain"]  # Tambahkan opsi sesuai kebutuhan
+)
+
 # Load models
 fish_model_knn = pd.read_pickle('Algoritma KNN/fish.pkl')
 fruit_model_knn = pd.read_pickle('Algoritma KNN/fruit.pkl')
