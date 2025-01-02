@@ -285,16 +285,15 @@ elif st.session_state.page == "sidebar":
                     pumpkin_result = pumpkin_types.get(prediction[0], "Unknown")
                     st.success(f"### Jenisa Labu: {pumpkin_result}")
 
-else:  # Wine
+if prediction_type == "Wine":  # Kondisi untuk Wine
     st.write("### Klasifikasi Data Wine")
-    
+
     try:
         # Load model .pkl
         with open("Unsupervised/kmean_wine.pkl", "rb") as file:
             kmeans_model = pickle.load(file)
 
-        # Simulasikan dataset (sesuai dengan data yang digunakan untuk membuat model)
-        # Gantilah data ini dengan data yang sesuai dengan model Anda
+        # Simulasikan dataset
         wine_data = pd.DataFrame({
             "alcohol": np.random.uniform(10, 15, 200),
             "total_phenols": np.random.uniform(0.1, 5, 200),
@@ -326,3 +325,6 @@ else:  # Wine
 
     except FileNotFoundError:
         st.error("Model kmean_wine.pkl tidak ditemukan! Pastikan file ada di direktori yang sama.")
+else:
+    st.write("Pilih jenis prediksi lain.")
+
