@@ -285,11 +285,8 @@ elif st.session_state.page == "sidebar":
                     pumpkin_result = pumpkin_types.get(prediction[0], "Unknown")
                     st.success(f"### Jenisa Labu: {pumpkin_result}")
 
-prediction_type = st.selectbox(
-    "Pilih jenis prediksi:",
-    ["Wine", "Prediksi Lain"]  # Tambahkan opsi sesuai kebutuhan
-)
-if prediction_type == "Wine":  # Kondisi untuk Wine
+
+if option == "Wine":  # Kondisi untuk Wine
     st.write("### Klasifikasi Data Wine")
 
     try:
