@@ -286,7 +286,8 @@ elif st.session_state.page == "sidebar":
                     st.success(f"### Jenisa Labu: {pumpkin_result}")
 
 else:  # Wine
-        st.write("### Klasifikasi Data Wine")
+    st.write("### Klasifikasi Data Wine")
+    
     try:
         # Load model .pkl
         with open("Unsupervised/kmean_wine.pkl", "rb") as file:
