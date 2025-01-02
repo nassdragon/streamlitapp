@@ -14,11 +14,6 @@ if "page" not in st.session_state:
 def go_to_sidebar():
     st.session_state.page = "sidebar"
 
-prediction_type = st.selectbox(
-    "Pilih jenis prediksi:",
-    ["Wine", "Prediksi Lain"]  # Tambahkan opsi sesuai kebutuhan
-)
-
 # Load models
 fish_model_knn = pd.read_pickle('Algoritma KNN/fish.pkl')
 fruit_model_knn = pd.read_pickle('Algoritma KNN/fruit.pkl')
@@ -290,6 +285,10 @@ elif st.session_state.page == "sidebar":
                     pumpkin_result = pumpkin_types.get(prediction[0], "Unknown")
                     st.success(f"### Jenisa Labu: {pumpkin_result}")
 
+prediction_type = st.selectbox(
+    "Pilih jenis prediksi:",
+    ["Wine", "Prediksi Lain"]  # Tambahkan opsi sesuai kebutuhan
+)
 if prediction_type == "Wine":  # Kondisi untuk Wine
     st.write("### Klasifikasi Data Wine")
 
