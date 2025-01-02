@@ -148,8 +148,6 @@ elif st.session_state.page == "sidebar":
         if option == "Wine":
             st.write("### Pilih Algoritma")
             algorithm = "K-Means"
-            if option == "Wine":  # Kondisi untuk Wine
-
             try:
                 # Load model .pkl
                 with open("Unsupervised/kmean_wine.pkl", "rb") as file:
