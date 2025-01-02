@@ -285,7 +285,6 @@ elif st.session_state.page == "sidebar":
                     pumpkin_result = pumpkin_types.get(prediction[0], "Unknown")
                     st.success(f"### Jenisa Labu: {pumpkin_result}")
 
-
 else:  # Wine
         st.write("### Klasifikasi Data Wine")
     try:
