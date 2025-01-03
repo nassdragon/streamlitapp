@@ -20,6 +20,13 @@ fish_model_bayes = pd.read_pickle('Algoritma Naive-Bayes/fish_bayes.pkl')
 fruit_model_bayes = pd.read_pickle('Algoritma Naive-Bayes/fruit_bayes.pkl')
 fish_model_id3 = pd.read_pickle('Algoritma ID3/fish_id3.pkl')
 fruit_model_id3 = pd.read_pickle('Algoritma ID3/fruit_id3.pkl')
+fish_model_svm = pd.read_pickle('Supervised/SVM_fish.pkl')
+fruit_model_svm = pd.read_pickle('Supervised/SVM_fruit.pkl')
+pumpkin_model_svm = pd.read_pickle('Supervised/SVM_pumpkin.pkl')
+fish_model_rfc = pd.read_pickle('Supervised/RFC_fish.pkl')
+fruit_model_rfc = pd.read_pickle('Supervised/RFC_fruit.pkl')
+pumpkin_model_rfc = pd.read_pickle('Supervised/RFC_pumpkin.pkl')
+wine_model_kmeans = pd.read_pickle('Unsupervised/kmean_wine.pkl')
 
 # Home page
 if st.session_state.page == "home":
