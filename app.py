@@ -337,9 +337,7 @@ elif st.session_state.page == "sidebar":
                     pumpkin_result = pumpkin_types.get(prediction[0], "Unknown")
                     st.success(f"### Pumpkin Type: {pumpkin_result}")
 
-import streamlit as st
 
-# CSS untuk menempatkan footer di bagian bawah
 footer_css = """
     <style>
     .footer {
