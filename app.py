@@ -31,27 +31,27 @@ wine_model_kmeans = pd.read_pickle('Unsupervised/kmean_wine.pkl')
 
 # Home page
 if st.session_state.page == "home":
-    st.title("Aplikasi Prediksi Machine Learning")
-    st.write("Selamat datang di aplikasi prediksi berbasis Machine Learning!")
-    st.write("Gunakan aplikasi ini untuk melakukan prediksi pada berbagai kategori data menggunakan algoritma yang berbeda.")
-    if st.button("Mulai"):
+    st.title("Machine Learning Prediction Application")
+    st.write("Welcome to the Machine Learning based prediction application!")
+    st.write("Use this application to make predictions on various categories of data using different algorithms.")
+    if st.button("Start"):
         go_to_sidebar()
 
 # Sidebar navigation
 elif st.session_state.page == "sidebar":
-    st.sidebar.title("Navigasi")
-    prediksi_menu = st.sidebar.radio("Pilih Menu", ["Prediksi 1", "Prediksi 2"])
+    st.sidebar.title("Navigation")
+    prediksi_menu = st.sidebar.radio("Choose Menu", ["Prediction 1", "Prediction 2"])
 
-    if prediksi_menu == "Prediksi 1":
-        st.title("Prediksi 1")
-        st.write("**Prediksi Machine Learning Menggunakan Algoritma KNN, Naive Bayes, dan ID3.**")
+    if prediksi_menu == "Prediction 1":
+        st.title("Prediction 1")
+        st.write("**Machine Learning Prediction Using KNN, Naive Bayes, and ID3 Algorithms.**")
 
         # Pilih kategori
-        st.write("### Pilih Kategori")
-        option = st.selectbox("Klasifikasi:", ("Fish", "Fruit"))
+        st.write("### Choose Category")
+        option = st.selectbox("Clasification:", ("Fish", "Fruit"))
 
         # Pilih algoritma
-        st.write("### Pilih Algoritma")
+        st.write("### Choose Algorithm")
         algorithm = st.selectbox("Algoritma:", ("KNN", "Naive Bayes", "ID3"))
 
         st.markdown("---")
@@ -74,12 +74,12 @@ elif st.session_state.page == "sidebar":
         # Input form based on category
         with st.form(key='my_form'):
             if option == "Fish":
-                st.write("### 🐟 Masukkan Data Ikan")
-                weight = st.number_input('Berat Ikan (dalam gram)', min_value=0.0, format="%.2f")
-                length = st.number_input('Panjang Ikan (dalam cm)', min_value=0.0, format="%.2f")
-                height = st.number_input('Tinggi Ikan (dalam cm)', min_value=0.0, format="%.2f")
+                st.write("### 🐟 Input Fish Data")
+                weight = st.number_input('Fish Weight (gram)', min_value=0.0, format="%.2f")
+                length = st.number_input('Fish Length (cm)', min_value=0.0, format="%.2f")
+                height = st.number_input('Fish Height (cm)', min_value=0.0, format="%.2f")
             
-                submit = st.form_submit_button(label='Prediksi Jenis Ikan', help="Klik untuk melihat hasil prediksi")
+                submit = st.form_submit_button(label='Fish Type Prediction', help="Click to see prediction results")
             
                 if submit:
                     input_data = np.array([weight, length, height]).reshape(1, -1)
@@ -94,11 +94,11 @@ elif st.session_state.page == "sidebar":
                     else:  # ID3
                         prediction = fish_model_id3.predict(input_data)
                         fish_result = fish_types.get(prediction[0], "Unknown")
-                    st.success(f"### Jenis Ikan: {fish_result}")
+                    st.success(f"### Fish Type: {fish_result}")
 
                     # Visualisasi pohon keputusan untuk ID3
                     if algorithm == "ID3":
-                        st.write("### Visualisasi Pohon Keputusan (ID3) untuk Prediksi Ikan:")
+                        st.write("### Decision Tree Visualization (ID3) for Fish Prediction:")
                         dot_data = export_graphviz(
                             fish_model_id3,
                             out_file=None,
