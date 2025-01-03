@@ -120,7 +120,7 @@ elif st.session_state.page == "sidebar":
                 green = st.slider('Skor Warna Buah Hijau', 0, 255, 0)
                 blue = st.slider('Skor Warna Buah Biru', 0, 255, 0)
         
-            submit = st.form_submit_button(label='Prediksi Jenis Buah', help="Klik untuk melihat hasil prediksi")
+                submit = st.form_submit_button(label='Prediksi Jenis Buah', help="Klik untuk melihat hasil prediksi")
         
                 if submit:
                     input_data = np.array([diameter, weight, red, green, blue]).reshape(1, -1)
@@ -136,19 +136,19 @@ elif st.session_state.page == "sidebar":
             
                     st.success(f"### Jenis Buah: {fruit_result}")
 
-                if algorithm == "ID3":
-                    st.write("### Visualisasi Pohon Keputusan (ID3) untuk Prediksi Buah:")
-                    dot_data = export_graphviz(
-                        fruit_model_id3,
-                        out_file=None,
-                        feature_names=["Diameter", "Weight", "Red", "Green", "Blue"],
-                        class_names=list(fruit_types.values()),
-                        filled=True,
-                        rounded=True,
-                        special_characters=True
-                    )
-                    graph = graphviz.Source(dot_data)
-                    st.graphviz_chart(dot_data)
+            if algorithm == "ID3":
+                st.write("### Visualisasi Pohon Keputusan (ID3) untuk Prediksi Buah:")
+                dot_data = export_graphviz(
+                    fruit_model_id3,
+                    out_file=None,
+                    feature_names=["Diameter", "Weight", "Red", "Green", "Blue"],
+                    class_names=list(fruit_types.values()),
+                    filled=True,
+                    rounded=True,
+                    special_characters=True
+                )
+                graph = graphviz.Source(dot_data)
+                st.graphviz_chart(dot_data)
 
     elif prediksi_menu == "Prediksi 2":
         st.title("Prediksi 2")
