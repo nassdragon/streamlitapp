@@ -111,14 +111,14 @@ elif st.session_state.page == "sidebar":
                         st.graphviz_chart(dot_data)
 
             elif option == "Fruit":
-                st.write("### 🍎 Masukkan Data Buah")
-                diameter = st.number_input('Diameter Buah (dalam cm)', min_value=0.0, format="%.2f")
-                weight = st.number_input('Berat Buah (dalam gram)', min_value=0.0, format="%.2f")
-                red = st.slider('Skor Warna Buah Merah', 0, 255, 0)
-                green = st.slider('Skor Warna Buah Hijau', 0, 255, 0)
-                blue = st.slider('Skor Warna Buah Biru', 0, 255, 0)
+                st.write("### 🍎 Input FRuit Data")
+                diameter = st.number_input('Fruit Diameter(cm)', min_value=0.0, format="%.2f")
+                weight = st.number_input('Fruit Weight(gram)', min_value=0.0, format="%.2f")
+                red = st.slider('Red Fruit Color Score', 0, 255, 0)
+                green = st.slider('Green Fruit Color Score', 0, 255, 0)
+                blue = st.slider('Blue Fruit Color Score', 0, 255, 0)
             
-                submit = st.form_submit_button(label='Prediksi Jenis Buah', help="Klik untuk melihat hasil prediksi")
+                submit = st.form_submit_button(label='Fruit Type Prediction', help="Click to see prediction results")
             
                 if submit:
                     input_data = np.array([diameter, weight, red, green, blue]).reshape(1, -1)
@@ -134,11 +134,11 @@ elif st.session_state.page == "sidebar":
                     # Mengubah hasil prediksi numerik ke kategori
                     fruit_result = fruit_types.get(prediction[0], "Unknown")
                 
-                    st.success(f"### Jenis Buah: {fruit_result}")
+                    st.success(f"### Fruit Type: {fruit_result}")
 
                     # Visualisasi pohon keputusan untuk ID3
                     if algorithm == "ID3":
-                        st.write("### Visualisasi Pohon Keputusan (ID3) untuk Prediksi Buah:")
+                        st.write("### Decision Tree Visualization (ID3) for Fruit Prediction:")
                         dot_data = export_graphviz(
                             fruit_model_id3,
                             out_file=None,
@@ -151,17 +151,17 @@ elif st.session_state.page == "sidebar":
                         st.graphviz_chart(dot_data)
 
 
-    elif prediksi_menu == "Prediksi 2":
-        st.title("Prediksi 2")
-        st.write("**Prediksi Machine Learning Menggunakan Agortima SVM, Random Forest dan K-Means.**")
+    elif prediksi_menu == "Prediction 2":
+        st.title("Prediction 2")
+        st.write("**Machine Learning Prediction Using Agortima SVM, Random Forest and K-Means.**")
 
         # Pilih kategori
-        st.write("### Pilih Kategori")
-        option = st.selectbox("Klasifikasi:", ("Fish", "Fruit", "Pumpkin", "Wine"))
+        st.write("### Choose Category")
+        option = st.selectbox("Clasification:", ("Fish", "Fruit", "Pumpkin", "Wine"))
 
         # Pilih algoritma
         if option == "Wine":
-            st.write("### Pilih Algoritma")
+            st.write("### Choose Algorithm")
             algorithm = "K-Means"
             try:
                 # Load model .pkl
@@ -176,10 +176,10 @@ elif st.session_state.page == "sidebar":
                 wine_features = wine_data.values
 
                 # Input untuk jumlah maksimal K
-                max_k = st.slider("Pilih Maksimal K", min_value=2, max_value=20, value=10)
+                max_k = st.slider("Select Maximum K", min_value=2, max_value=20, value=10)
 
                 # Tombol untuk menampilkan Elbow Method
-                if st.button("Tampilkan Grafik Elbow Method"):
+                if st.button("Show Elbow Method Graph"):
                     # Hitung SSE untuk setiap nilai K
                     sse = []
                     for k in range(1, max_k + 1):
@@ -190,19 +190,19 @@ elif st.session_state.page == "sidebar":
                     # Plot grafik Elbow Method
                     plt.figure(figsize=(10, 6))
                     plt.plot(range(1, max_k + 1), sse, marker='o')
-                    plt.xlabel("Jumlah Kluster (K)")
+                    plt.xlabel("Number of Clusters (K)")
                     plt.ylabel("Sum of Squared Errors (SSE)")
-                    plt.title("Elbow Method untuk Menentukan Nilai Optimal K")
+                    plt.title("Elbow Method for Determining the Optimal Value of K")
                     plt.grid(True)
 
                     # Tampilkan grafik di Streamlit
                     st.pyplot(plt)
 
             except FileNotFoundError:
-                st.error("Model kmean_wine.pkl tidak ditemukan! Pastikan file ada di direktori yang sama.")
+                st.error("Model kmean_wine.pkl not found! Make sure the files are in the same directory")
         else:
-            st.write("### Pilih Algoritma")
-            algorithm = st.selectbox("Algoritma:", ("SVM", "Random Forest"))
+            st.write("### Choose Algorithm")
+            algorithm = st.selectbox("Algorithm:", ("SVM", "Random Forest"))
 
         st.markdown("---")
 
@@ -226,12 +226,12 @@ elif st.session_state.page == "sidebar":
         # Input form based on category
         with st.form(key='prediction_form'):
             if option == "Fish":
-                st.write("### Masukkan Data Ikan")
-                weight = st.number_input('Berat Ikan (dalam gram)', min_value=0.0, format="%.2f")
-                length = st.number_input('Panjang Ikan (dalam cm)', min_value=0.0, format="%.2f")
-                height = st.number_input('Tinggi Ikan (dalam cm)', min_value=0.0, format="%.2f")
+                st.write("### Input Fish Data")
+                weight = st.number_input('Fish Weight (gram)', min_value=0.0, format="%.2f")
+                length = st.number_input('Fish Length (cm)', min_value=0.0, format="%.2f")
+                height = st.number_input('Fish Height (cm)', min_value=0.0, format="%.2f")
 
-                submit = st.form_submit_button(label='Prediksi Jenis Ikan')
+                submit = st.form_submit_button(label='Fish Type Prediction')
 
                 if submit:
                     input_data = np.array([weight, length, height]).reshape(1, -1)
@@ -242,7 +242,7 @@ elif st.session_state.page == "sidebar":
                         prediction = fish_model_rfc.predict(input_data)
 
                         # Visualize tree
-                        st.write("### Visualisasi Pohon Keputusan")
+                        st.write("### Decision Tree Visualization")
                         tree = fish_model_rfc.estimators_[0]
                         dot_data = export_graphviz(
                             tree,
@@ -257,17 +257,17 @@ elif st.session_state.page == "sidebar":
                         st.graphviz_chart(graph.source)
 
                     fish_result = fish_types.get(prediction[0], "Unknown")
-                    st.success(f"### Jenis Ikan: {fish_result}")
+                    st.success(f"### Fish Type: {fish_result}")
 
             elif option == "Fruit":
-                st.write("### Masukkan Data Buah")
-                diameter = st.number_input('Diameter Buah (dalam cm)', min_value=0.0, format="%.2f")
-                weight = st.number_input('Berat Buah (dalam gram)', min_value=0.0, format="%.2f")
-                red = st.slider('Skor Warna Buah Merah', 0, 255, 0)
-                green = st.slider('Skor Warna Buah Hijau', 0, 255, 0)
-                blue = st.slider('Skor Warna Buah Biru', 0, 255, 0)
+                st.write("### Input Fruit Data")
+                diameter = st.number_input('Fruit Diameter (dalam cm)', min_value=0.0, format="%.2f")
+                weight = st.number_input('Fruit Weight (dalam gram)', min_value=0.0, format="%.2f")
+                red = st.slider('Red Fruit Color Score', 0, 255, 0)
+                green = st.slider('Green Fruit Color Score', 0, 255, 0)
+                blue = st.slider('Blue Fruit Color Score', 0, 255, 0)
 
-                submit = st.form_submit_button(label='Prediksi Jenis Buah')
+                submit = st.form_submit_button(label='Fruit Type Prediction')
 
                 if submit:
                     input_data = np.array([diameter, weight, red, green, blue]).reshape(1, -1)
@@ -278,7 +278,7 @@ elif st.session_state.page == "sidebar":
                         prediction = fruit_model_rfc.predict(input_data)
 
                         # Visualize tree
-                        st.write("### Visualisasi Pohon Keputusan")
+                        st.write("### Decision Tree Visualization")
                         tree = fruit_model_rfc.estimators_[0]
                         dot_data = export_graphviz(
                             tree,
@@ -293,24 +293,24 @@ elif st.session_state.page == "sidebar":
                         st.graphviz_chart(graph.source)
 
                     fruit_result = fruit_types.get(prediction[0], "Unknown")
-                    st.success(f"### Jenis Buah: {fruit_result}")
+                    st.success(f"### Fruit Type: {fruit_result}")
 
             elif option == "Pumpkin":
-                st.write("### Masukkan Data Labu")
+                st.write("### Input Pumpkin Data")
                 area = st.number_input('Area (dalam cm²)', min_value=0.0, format="%.2f")
-                perimeter = st.number_input('Keliling (dalam cm)', min_value=0.0, format="%.2f")
-                major_axis_length = st.number_input('Panjang Sumbu Mayor (dalam cm)', min_value=0.0, format="%.2f")
-                minor_axis_length = st.number_input('Panjang Sumbu Minor (dalam cm)', min_value=0.0, format="%.2f")
-                convex_area = st.number_input('Area Cembung (dalam cm²)', min_value=0.0, format="%.2f")
-                equiv_diameter = st.number_input('Diameter Ekivalen (dalam cm)', min_value=0.0, format="%.2f")
-                eccentricity = st.number_input('Eksentrisitas', min_value=0.0, format="%.2f")
-                solidity = st.number_input('Kepadatan', min_value=0.0, format="%.2f")
-                extent = st.number_input('Ekstensi', min_value=0.0, format="%.2f")
-                roundness = st.number_input('Kebulatan', min_value=0.0, format="%.2f")
-                aspect_ratio = st.number_input('Rasio Aspek', min_value=0.0, format="%.2f")
-                compactness = st.number_input('Kompak', min_value=0.0, format="%.2f")
+                perimeter = st.number_input('Perimeter (dalam cm)', min_value=0.0, format="%.2f")
+                major_axis_length = st.number_input('Major Axis Length (dalam cm)', min_value=0.0, format="%.2f")
+                minor_axis_length = st.number_input('Minor Axis Legth (dalam cm)', min_value=0.0, format="%.2f")
+                convex_area = st.number_input('Convex Area (dalam cm²)', min_value=0.0, format="%.2f")
+                equiv_diameter = st.number_input('Equiv Diameter (dalam cm)', min_value=0.0, format="%.2f")
+                eccentricity = st.number_input('Eccentrity', min_value=0.0, format="%.2f")
+                solidity = st.number_input('Solidity', min_value=0.0, format="%.2f")
+                extent = st.number_input('Extent', min_value=0.0, format="%.2f")
+                roundness = st.number_input('Roundness', min_value=0.0, format="%.2f")
+                aspect_ratio = st.number_input('Aspect Ratio', min_value=0.0, format="%.2f")
+                compactness = st.number_input('Compactness', min_value=0.0, format="%.2f")
 
-                submit = st.form_submit_button(label='Prediksi Jenis Labu')
+                submit = st.form_submit_button(label='Pumpkin Type Prediction')
 
                 if submit:
                     input_data = np.array([area, perimeter, major_axis_length, minor_axis_length, convex_area, equiv_diameter, eccentricity, solidity, extent, roundness, aspect_ratio, compactness]).reshape(1, -1)
@@ -320,7 +320,7 @@ elif st.session_state.page == "sidebar":
                         prediction = pumpkin_model_rfc.predict(input_data)
 
                 # Visualize tree
-                        st.write("### Visualisasi Pohon Keputusan")
+                        st.write("### Decision Tree Visualization")
                         tree = pumpkin_model_rfc.estimators_[0]  # Get the first tree in the forest
                         dot_data = export_graphviz(
                             tree,
@@ -335,7 +335,38 @@ elif st.session_state.page == "sidebar":
                         st.graphviz_chart(graph.source)
 
                     pumpkin_result = pumpkin_types.get(prediction[0], "Unknown")
-                    st.success(f"### Jenisa Labu: {pumpkin_result}")
+                    st.success(f"### Pumpkin Type: {pumpkin_result}")
+
+import streamlit as st
+
+# CSS untuk menempatkan footer di bagian bawah
+footer_css = """
+    <style>
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 14px;
+        color: #555;
+    }
+    </style>
+"""
+
+# HTML untuk konten footer
+footer_html = """
+    <div class="footer">
+        Aplikasi ini dibuat dan di-deploy oleh Muhammad Anas Ma'ruf
+    </div>
+"""
+
+# Tambahkan CSS dan HTML ke halaman
+st.markdown(footer_css, unsafe_allow_html=True)
+st.markdown(footer_html, unsafe_allow_html=True)
+
 
 
 
