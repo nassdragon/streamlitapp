@@ -5,6 +5,7 @@ import pickle
 from sklearn.tree import export_graphviz
 import graphviz
 import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
 
 # Initialize session state
 if "page" not in st.session_state:
