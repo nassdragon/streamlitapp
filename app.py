@@ -79,7 +79,7 @@ elif st.session_state.page == "sidebar":
                 length = st.number_input('Panjang Ikan (dalam cm)', min_value=0.0, format="%.2f")
                 height = st.number_input('Tinggi Ikan (dalam cm)', min_value=0.0, format="%.2f")
         
-            submit = st.form_submit_button(label='Prediksi Jenis Ikan', help="Klik untuk melihat hasil prediksi")
+                submit = st.form_submit_button(label='Prediksi Jenis Ikan', help="Klik untuk melihat hasil prediksi")
         
             if submit:
                     input_data = np.array([weight, length, height]).reshape(1, -1)
