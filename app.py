@@ -128,13 +128,28 @@ elif st.session_state.page == "sidebar":
                     # Memilih algoritma KNN atau Naive Bayes
                     if algorithm == "KNN":
                         prediction = fruit_model_knn.predict(input_data)
-                    else:  # Naive Bayes
+                    elif:  # Naive Bayes
                         prediction = fruit_model_bayes.predict(input_data)
+                    else:
+                        prediction = fruit_model_id3.predict(input_data)
             
                     # Mengubah hasil prediksi numerik ke kategori
                     fruit_result = fruit_types.get(prediction[0], "Unknown")
             
                     st.success(f"### Jenis Buah: {fruit_result}")
+            if algorithm == "ID3":
+                st.write("### Visualisasi Pohon Keputusan (ID3) untuk Prediksi Buah:")
+                dot_data = export_graphviz(
+                    fruit_model_id3,
+                    out_file=None,
+                    feature_names=["Diameter", "Weight", "Red", "Green", "Blue"],
+                    class_names=list(fruit_types.values()),
+                    filled=True,
+                    rounded=True,
+                    special_characters=True
+                )
+                graph = graphviz.Source(dot_data)
+                st.graphviz_chart(dot_data)
 
     elif prediksi_menu == "Prediksi 2":
         st.title("Prediksi 2")
