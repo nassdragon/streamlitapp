@@ -338,6 +338,7 @@ elif st.session_state.page == "sidebar":
                     st.success(f"### Pumpkin Type: {pumpkin_result}")
 
 
+# CSS untuk footer dengan background hitam dan animasi berjalan
 footer_css = """
     <style>
     .footer {
@@ -345,19 +346,37 @@ footer_css = """
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: #f0f0f0;
+        background-color: #000; /* Background hitam */
+        color: #fff; /* Warna teks putih */
         text-align: center;
         padding: 10px 0;
         font-size: 14px;
-        color: #555;
+        overflow: hidden; /* Untuk menyembunyikan teks di luar area */
+    }
+
+    .footer-text {
+        display: inline-block;
+        white-space: nowrap; /* Agar teks tidak membungkus */
+        animation: scroll-left 10s linear infinite; /* Animasi berjalan */
+    }
+
+    @keyframes scroll-left {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
     }
     </style>
 """
 
-# HTML untuk konten footer
+# HTML untuk konten footer dengan animasi teks
 footer_html = """
     <div class="footer">
-        Aplikasi ini dibuat dan di-deploy oleh Muhammad Anas Ma'ruf
+        <div class="footer-text">
+           This application was created and deployed by Muhammad Anas Ma'ruf
+        </div>
     </div>
 """
 
