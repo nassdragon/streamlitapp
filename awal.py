@@ -367,5 +367,145 @@ with st.form(key='prediction_form'):
             prediction = wine_model_kmeans.predict(input_data)
             st.success(f"### Kategori Wine: Cluster {prediction[0]}")
             st.balloons()
+            import pandas as pd
+import numpy as np
+import streamlit as st
+import pickle
+from sklearn.tree import export_graphviz
+import graphviz
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+# Initialize session state
+if "page" not in st.session_state:
+    st.session_state.page = "home"
+
+def go_to_sidebar():
+    st.session_state.page = "sidebar"
+
+# Load models
+fish_model_knn = pd.read_pickle('Algoritma KNN/fish.pkl')
+fruit_model_knn = pd.read_pickle('Algoritma KNN/fruit.pkl')
+fish_model_bayes = pd.read_pickle('Algoritma Naive-Bayes/fish_bayes.pkl')
+fruit_model_bayes = pd.read_pickle('Algoritma Naive-Bayes/fruit_bayes.pkl')
+fish_model_id3 = pd.read_pickle('Algoritma ID3/fish_id3.pkl')
+fruit_model_id3 = pd.read_pickle('Algoritma ID3/fruit_id3.pkl')
+fish_model_svm = pd.read_pickle('Supervised/SVM_fish.pkl')
+fruit_model_svm = pd.read_pickle('Supervised/SVM_fruit.pkl')
+pumpkin_model_svm = pd.read_pickle('Supervised/SVM_pumpkin.pkl')
+fish_model_rfc = pd.read_pickle('Supervised/RFC_fish.pkl')
+fruit_model_rfc = pd.read_pickle('Supervised/RFC_fruit.pkl')
+pumpkin_model_rfc = pd.read_pickle('Supervised/RFC_pumpkin.pkl')
+wine_model_kmeans = pd.read_pickle('Unsupervised/kmean_wine.pkl')
+
+# Home page
+if st.session_state.page == "home":
+    st.title("Aplikasi Prediksi Machine Learning")
+    st.write("Selamat datang di aplikasi prediksi berbasis Machine Learning!")
+    st.write("Gunakan aplikasi ini untuk melakukan prediksi pada berbagai kategori data menggunakan algoritma yang berbeda.")
+    if st.button("Mulai"):
+        go_to_sidebar()
+
+# Sidebar navigation
+elif st.session_state.page == "sidebar":
+    st.sidebar.title("Navigasi")
+    prediksi_menu = st.sidebar.radio("Pilih Menu", ["Prediksi 1", "Prediksi 2"])
+
+    if prediksi_menu == "Prediksi 1":
+        st.title("Prediksi 1")
+        st.write("**Prediksi Machine Learning Menggunakan Agortima KNN, Naive Bayes dan ID3.**")
+
+        # Pilih kategori
+        st.write("### Pilih Kategori")
+        option = st.selectbox("Klasifikasi:", ("Fish", "Fruit"))
+
+        # Pilih algoritma
+        st.write("### Pilih Algoritma")
+        algorithm = st.selectbox("Algoritma:", ("KNN", "Naive Bayes", "ID3"))
+
+        st.markdown("---")
+
+        # Dictionaries for fish and fruit types
+        fish_types = {
+            0: "Anabas testudineus",
+            1: "Coilia dussumieri",
+            2: "Otolithoides biauritus",
+            3: "Otolithoides pama",
+            4: "Pethia conchonius",
+            5: "Polynemus paradiseus",
+            6: "Puntius lateristriga",
+            7: "Setipinna taty",
+            8: "Sillaginopsis panijus"
+        }
+
+        fruit_types = {0: "Grapefruit", 1: "Orange"}
+
+        # Input form based on category
+        with st.form(key='my_form'):
+            if option == "Fish":
+                st.write("### 🐟 Masukkan Data Ikan")
+                weight = st.number_input('Berat Ikan (dalam gram)', min_value=0.0, format="%.2f")
+                length = st.number_input('Panjang Ikan (dalam cm)', min_value=0.0, format="%.2f")
+                height = st.number_input('Tinggi Ikan (dalam cm)', min_value=0.0, format="%.2f")
+        
+                submit = st.form_submit_button(label='Prediksi Jenis Ikan', help="Klik untuk melihat hasil prediksi")
+        
+                if submit:
+                    input_data = np.array([weight, length, height]).reshape(1, -1)
+            
+                    # Memilih algoritma KNN, Naive Bayes, atau ID3
+                    if algorithm == "KNN":
+                        prediction = fish_model_knn.predict(input_data)
+                        fish_result = prediction[0]
+                    elif algorithm == "Naive Bayes":
+                        prediction = fish_model_bayes.predict(input_data)
+                        fish_result = fish_types.get(prediction[0], "Unknown")
+                    else:  # ID3
+                        prediction = fish_model_id3.predict(input_data)
+                        fish_result = fish_types.get(prediction[0], "Unknown")
+                    st.success(f"### Jenis Ikan: {fish_result}")
+
+ # Visualisasi id3
+            if algorithm == "ID3":
+                st.write("### Visualisasi Pohon Keputusan (ID3) untuk Prediksi Ikan:")
+                dot_data = export_graphviz(
+                    fish_model_id3,
+                    out_file=None,
+                    feature_names=["Weight", "Length", "Height"],
+                    class_names=list(fish_types.values()),
+                    filled=True,
+                    rounded=True,
+                    special_characters=True
+                )
+                graph = graphviz.Source(dot_data)
+                st.graphviz_chart(dot_data)
+
+
+            elif option == "Fruit":
+                st.write("### 🍎 Masukkan Data Buah")
+                diameter = st.number_input('Diameter Buah (dalam cm)', min_value=0.0, format="%.2f")
+                weight = st.number_input('Berat Buah (dalam gram)', min_value=0.0, format="%.2f")
+                red = st.slider('Skor Warna Buah Merah', 0, 255, 0)
+                green = st.slider('Skor Warna Buah Hijau', 0, 255, 0)
+                blue = st.slider('Skor Warna Buah Biru', 0, 255, 0)
+        
+                submit = st.form_submit_button(label='Prediksi Jenis Buah', help="Klik untuk melihat hasil prediksi")
+        
+                if submit:
+                    input_data = np.array([diameter, weight, red, green, blue]).reshape(1, -1)
+            
+                    # Memilih algoritma KNN atau Naive Bayes
+                    if algorithm == "KNN":
+                        prediction = fruit_model_knn.predict(input_data)
+                    elif algorithm == "Naive Bayes":  # Naive Bayes
+                        prediction = fruit_model_bayes.predict(input_data)
+                    else:
+                        prediction = fruit_model_id3.predict(input_data)
+            
+                    # Mengubah hasil prediksi numerik ke kategori
+                    fruit_result = fruit_types.get(prediction[0], "Unknown")
+            
+                    st.success(f"### Jenis Buah: {fruit_result}")
+
 
 
