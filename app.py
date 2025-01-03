@@ -136,6 +136,8 @@ elif st.session_state.page == "sidebar":
             
                     st.success(f"### Jenis Buah: {fruit_result}")
 
+
+    
                 if algorithm == "ID3":
                     st.write("### Visualisasi Pohon Keputusan (ID3) untuk Prediksi Buah:")
                     dot_data = export_graphviz(
