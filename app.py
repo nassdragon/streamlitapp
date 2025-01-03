@@ -128,7 +128,7 @@ elif st.session_state.page == "sidebar":
                     # Memilih algoritma KNN atau Naive Bayes
                     if algorithm == "KNN":
                         prediction = fruit_model_knn.predict(input_data)
-                    elif:  # Naive Bayes
+                    elif algorithm == "Naive Bayes":  # Naive Bayes
                         prediction = fruit_model_bayes.predict(input_data)
                     else:
                         prediction = fruit_model_id3.predict(input_data)
