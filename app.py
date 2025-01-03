@@ -122,8 +122,8 @@ elif st.session_state.page == "sidebar":
         
                 submit = st.form_submit_button(label='Prediksi Jenis Buah', help="Klik untuk melihat hasil prediksi")
         
-                if submit:
-                    input_data = np.array([diameter, weight, red, green, blue]).reshape(1, -1)
+                    if submit:
+                        input_data = np.array([diameter, weight, red, green, blue]).reshape(1, -1)
             
                     # Memilih algoritma KNN atau Naive Bayes
                     if algorithm == "KNN":
@@ -137,19 +137,19 @@ elif st.session_state.page == "sidebar":
                     fruit_result = fruit_types.get(prediction[0], "Unknown")
             
                     st.success(f"### Jenis Buah: {fruit_result}")
-            if algorithm == "ID3":
-                st.write("### Visualisasi Pohon Keputusan (ID3) untuk Prediksi Buah:")
-                dot_data = export_graphviz(
-                    fruit_model_id3,
-                    out_file=None,
-                    feature_names=["Diameter", "Weight", "Red", "Green", "Blue"],
-                    class_names=list(fruit_types.values()),
-                    filled=True,
-                    rounded=True,
-                    special_characters=True
-                )
-                graph = graphviz.Source(dot_data)
-                st.graphviz_chart(dot_data)
+                if algorithm == "ID3":
+                    st.write("### Visualisasi Pohon Keputusan (ID3) untuk Prediksi Buah:")
+                    dot_data = export_graphviz(
+                        fruit_model_id3,
+                        out_file=None,
+                        feature_names=["Diameter", "Weight", "Red", "Green", "Blue"],
+                        class_names=list(fruit_types.values()),
+                        filled=True,
+                        rounded=True,
+                        special_characters=True
+                    )
+                    graph = graphviz.Source(dot_data)
+                    st.graphviz_chart(dot_data)
 
     elif prediksi_menu == "Prediksi 2":
         st.title("Prediksi 2")
