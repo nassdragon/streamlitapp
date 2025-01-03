@@ -81,7 +81,7 @@ elif st.session_state.page == "sidebar":
         
                 submit = st.form_submit_button(label='Prediksi Jenis Ikan', help="Klik untuk melihat hasil prediksi")
         
-            if submit:
+                if submit:
                     input_data = np.array([weight, length, height]).reshape(1, -1)
             
                     # Memilih algoritma KNN, Naive Bayes, atau ID3
@@ -120,9 +120,9 @@ elif st.session_state.page == "sidebar":
                 green = st.slider('Skor Warna Buah Hijau', 0, 255, 0)
                 blue = st.slider('Skor Warna Buah Biru', 0, 255, 0)
         
-            submit = st.form_submit_button(label='Prediksi Jenis Buah', help="Klik untuk melihat hasil prediksi")
+                submit = st.form_submit_button(label='Prediksi Jenis Buah', help="Klik untuk melihat hasil prediksi")
         
-            if submit:
+                if submit:
                     input_data = np.array([diameter, weight, red, green, blue]).reshape(1, -1)
             
                     # Memilih algoritma KNN atau Naive Bayes
